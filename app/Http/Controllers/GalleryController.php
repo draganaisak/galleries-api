@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GalleryRequest;
 use Illuminate\Http\Request;
+use App\Models\Gallery;
+use Illuminate\Support\Facades\Log;
 
 class GalleryController extends Controller
 {
@@ -14,7 +16,9 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        //
+        $data = Gallery::with(['user', 'images'])->get();
+        Log::info($data);
+        return response()->json($data);
     }
 
     /**
