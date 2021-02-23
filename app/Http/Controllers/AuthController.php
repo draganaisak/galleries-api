@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,7 +21,7 @@ class AuthController extends Controller
             'user' => $user
         ];
     }
-    
+
     public function login(LoginRequest $request)
     {
         $credentials = [
@@ -34,21 +38,18 @@ class AuthController extends Controller
           ];
     }
 
-   
+    public function logout()
+    {
+        auth('api')->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
     public function me()
     {
         return auth('api')->user();
     }
 
-    
-    public function logout()
-    {
-        $result = auth('api')->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    
     public function refresh()
     {
         $token = auth('api')->refresh();
