@@ -23,5 +23,6 @@ Route::post('/register', [AuthController::class, 'register'])->middleware('guest
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest:api');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 Route::post('/me', [AuthController::class, 'me'])->middleware('auth:api');
+Route::post('refresh-token', [AuthController::class, 'refreshToken'])->middleware('auth:api');
 
 Route::resource('galleries', GalleryController::class)->middleware('auth:api');
