@@ -16,7 +16,9 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $data = Gallery::with(['user', 'images'])->get();
+        $data = Gallery::with(['user', 'images'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         Log::info($data);
         return response()->json($data);
     }
@@ -56,7 +58,9 @@ class GalleryController extends Controller
      */
     public function show($id)
     {
-        //
+        $gallery = Gallery::with(['images', 'user'])->findOrFail($id);
+//        $gallery->paginate(10);
+        return response()->json($gallery);
     }
 
     /**
