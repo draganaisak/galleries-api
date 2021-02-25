@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GalleryRequest;
+use App\Http\Requests\CreateGalleryRequest;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Log;
@@ -36,10 +36,11 @@ class GalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CreateGalleryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GalleryRequest $request)
+
+    public function store(CreateGalleryRequest $request)
     {
         $data = $request->validated();
         $gallery = auth()->user()->galleries()->create($data);
@@ -59,7 +60,6 @@ class GalleryController extends Controller
     public function show($id)
     {
         $gallery = Gallery::with(['images', 'user'])->findOrFail($id);
-//        $gallery->paginate(10);
         return response()->json($gallery);
     }
 
