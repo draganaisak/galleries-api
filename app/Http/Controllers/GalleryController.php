@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGalleryRequest;
+use App\Http\Requests\UpdateGalleryRequest;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Log;
@@ -64,26 +65,18 @@ class GalleryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGalleryRequest $request, $id)
     {
-        //
+        $data = $request->all();
+        $gallery = Gallery::findOrFail($id);
+        $gallery->update($data);
+        return response()->json($gallery);
     }
 
     /**
@@ -94,6 +87,8 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $gallery = Gallery::findOrFail($id);
+        $gallery->delete();
+        return response()->json($gallery);
     }
 }
