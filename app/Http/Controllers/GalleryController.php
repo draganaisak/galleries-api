@@ -20,18 +20,18 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        Log::info($data);
+//        Log::info($data);
         return response()->json($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function getMyGalleries() {
+        $currentUser = auth()->user()->id;
+        $data = Gallery::with(['user', 'images'])
+            ->where('user_id', $currentUser)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        Log::info($data);
+        return response()->json($data);
     }
 
     /**
