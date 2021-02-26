@@ -27,8 +27,9 @@ Route::post('refresh-token', [AuthController::class, 'refreshToken'])->middlewar
 
 Route::resource('galleries', GalleryController::class)
     ->middleware('auth:api')->except([
-        'index'
+        'index', 'show'
     ]);
 Route::get('galleries', [GalleryController::class, 'index']);
+Route::get('galleries/{id}', [GalleryController::class, 'show']);
 Route::get('my-galleries', [GalleryController::class, 'getMyGalleries'])->middleware('auth:api');
 
