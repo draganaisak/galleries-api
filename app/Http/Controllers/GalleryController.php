@@ -34,6 +34,15 @@ class GalleryController extends Controller
         return response()->json($data);
     }
 
+    public function getAuthorsGalleries($id) {
+        $data = Gallery::with(['user', 'images'])
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(2);
+        Log::info($data);
+        return response()->json($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -77,11 +86,12 @@ class GalleryController extends Controller
             'name' => $request->name,
             'description' => $request->description,
         ];
-        $gallery = Gallery::findOrFail($id);
+        $gallery = Gallery::with(['images', 'user'])->findOrFail($id);
+        $gallery->images()->delete();
         $gallery->update($galleryData);
 
         foreach($request->images as $image) {
-            $gallery->images()->update($image);
+            $gallery->images()->create($image);
         }
         return response()->json($gallery);
     }
