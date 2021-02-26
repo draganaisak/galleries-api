@@ -23,7 +23,7 @@ Route::post('/register', [AuthController::class, 'register'])->middleware('guest
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest:api');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:api');
-Route::post('refresh-token', [AuthController::class, 'refreshToken'])->middleware('guest:api');
+Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
 Route::resource('galleries', GalleryController::class)
     ->middleware('auth:api')->except([
@@ -32,4 +32,6 @@ Route::resource('galleries', GalleryController::class)
 Route::get('galleries', [GalleryController::class, 'index']);
 Route::get('galleries/{id}', [GalleryController::class, 'show']);
 Route::get('my-galleries', [GalleryController::class, 'getMyGalleries'])->middleware('auth:api');
+Route::get('authors-galleries/{id}', [GalleryController::class, 'getAuthorsGalleries']);
+
 
