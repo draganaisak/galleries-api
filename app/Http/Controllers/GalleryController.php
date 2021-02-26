@@ -29,7 +29,7 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->where('user_id', $currentUser)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(2);
         Log::info($data);
         return response()->json($data);
     }
@@ -73,9 +73,16 @@ class GalleryController extends Controller
      */
     public function update(UpdateGalleryRequest $request, $id)
     {
-        $data = $request->all();
+        $galleryData = [
+            'name' => $request->name,
+            'description' => $request->description,
+        ];
         $gallery = Gallery::findOrFail($id);
-        $gallery->update($data);
+        $gallery->update($galleryData);
+
+        foreach($request->images as $image) {
+            $gallery->images()->update($image);
+        }
         return response()->json($gallery);
     }
 
