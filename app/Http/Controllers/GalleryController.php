@@ -6,7 +6,6 @@ use App\Http\Requests\CreateGalleryRequest;
 use App\Http\Requests\UpdateGalleryRequest;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
-use Illuminate\Support\Facades\Log;
 
 class GalleryController extends Controller
 {
@@ -20,7 +19,6 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-//        Log::info($data);
         return response()->json($data);
     }
 
@@ -29,8 +27,7 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->where('user_id', $currentUser)
             ->orderBy('created_at', 'desc')
-            ->paginate(2);
-        Log::info($data);
+            ->get();
         return response()->json($data);
     }
 
@@ -38,8 +35,7 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->where('user_id', $id)
             ->orderBy('created_at', 'desc')
-            ->paginate(2);
-        Log::info($data);
+            ->get();
         return response()->json($data);
     }
 
