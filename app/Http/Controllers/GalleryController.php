@@ -27,7 +27,7 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->where('user_id', $currentUser)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
         return response()->json($data);
     }
 
@@ -35,7 +35,7 @@ class GalleryController extends Controller
         $data = Gallery::with(['user', 'images'])
             ->where('user_id', $id)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
         return response()->json($data);
     }
 
